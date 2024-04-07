@@ -1,20 +1,36 @@
 # Yadro DevOps a.ukhanov
+### Project Description
+This is an application for obtaining the ruble exchange rate against other currencies through the API of the Central Bank of Russia.
 
-- 👋 Hi, I’m @DR0P-database
-- 👀 I’m interested in backend and DevOps engineering
-- 🌱 I’m currently learning backend Python Roadmap with stack of Python Advaced Core, Flask, Django, FastAPI, RegEx, Git, CI/CD, network technologies
-- 💞️ I’m looking to collaborate on python projects and cloud technologies or system architecture
-- 📫 How to reach me @DR0P_DB (telegram) and dropdatabase.py@gmail.com (email)
 
-### About me:
-Я Python-программист. Хорошо ориентируюсь в языке, ежедневно улучшаю свои навыки, занимаюсь изучением фреймворков, различных библиотек и возможностей языка. Готов обмениваться идеями, решать проблемы вместе с коллегами и учиться на опыте других специалистов. Постоянно совершенствую свои навыки, читаю статьи и научную литературу по интересующему меня направлению. Также я интересуюсь современными технологиями и их внедрениями в повседневную жизнь, веду активный образ жизни.
+### Start application
+Before start server, you should install virtual environment with dependencies.
 
-Работаю с Pandas, RESTAPI, знаком с Linux, пользуюсь принципами ООП, знаю принципы работы сетей, интернет протоколы, знаком с моделью OSI.
-В 2023 году принимал участие в хакатоне Opportunity Cup. И сейчас продолжаю уделять внимание хактонам по направлению backend.
-До этого участвовал в школе по практическому программированию и анализу данных. Придерживаюсь roadmap'а по backend и Python developer.
-Решаю задачи на leetcode и codewars.
+After you have bent the project, in the project folder through the terminal, execute the commands:
+>`python3 -m venv local_python_environment`
+>
+>`source local_python_environment/bin/activate`
+>
+>`pip install -r requirements.txt`
 
-Обучаюсь в вузе на специальность DevOps-инженер. Сессии закрыты с лучшими отметками. Выполняю в вузе практические проекты, связанные с backend разработкой и DevOps направлением.
+To ***start server*** run `python main.py` or run follow commands in terminal
+>`uvicorn main:app`
 
-- Стэк: Python, PostgreSQL, Flask, git
-- Мой GitHub: https://github.com/DR0P-database
+
+### Usage application
+To ***get info*** about service you need to use the following request: 
+>`GET "/info"`
+
+To ***get currency*** valuets:
+>`GET "/info/currency"`
+
+This query also accepts optional parameters: 
+>date: in the format YYYYY-MM-DD 
+
+>currency quote: in ISO 4217 standard ("USD", "RUB", e.t.c)
+
+If the query is passed ***without date***, it will return ***today's*** date.
+
+If passed ***without quote***, it will return ***all*** available currencies
+
+Any other requests will return ***errors***
