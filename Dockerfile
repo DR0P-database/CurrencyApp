@@ -6,9 +6,9 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /docker_app
 
 COPY requirements.txt .
-RUN  pip install --no-cache-dir --upgrade -r docker_app/requirements.txt
+RUN  pip install --no-cache-dir --upgrade -r requirements.txt
 
-COPY . /docker_app
+COPY . .
 
 # CMD ["gunicorn", "--bind", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker", "currency_app.app:app"]
 # CMD python main.py
