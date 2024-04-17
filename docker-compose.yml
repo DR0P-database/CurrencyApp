@@ -1,13 +1,12 @@
-version: '3.4'
+version: '3.8'
 
 services:
-  a:
+  app:
     container_name: currency_app
     build:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - "${PORT}:8000"
-    env_file:
-      - '.env'
-    command: ["gunicorn", "--bind", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker", "currency_app.app:app"]
+      - '${PORT:-8000}:8000'
+    command: ["gunicorn", "-b", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker", "currency_app.app:app"]
+
