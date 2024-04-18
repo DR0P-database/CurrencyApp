@@ -7,5 +7,4 @@ RUN  pip install --no-cache-dir --upgrade -r requirements.txt
 
 COPY . .
 
-# CMD ["gunicorn", "--bind", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker", "currency_app.app:app"]
-# CMD python main.py
+ENTRYPOINT ["python", "main.py"]

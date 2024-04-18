@@ -6,7 +6,9 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+    env_file:
+      - path: .env
+        required: false
     ports:
-      - '${PORT:-8000}:8000'
-    command: ["gunicorn", "-b", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker", "currency_app.app:app"]
+      - '${PORT:-8000}:${PORT:-8000}'
 
