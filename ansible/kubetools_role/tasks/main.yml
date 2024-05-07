@@ -1,0 +1,55 @@
+---
+# tasks file for kubetools_role
+- name: Последняя версия списка пакетов
+  apt:
+    update_cache: yes
+
+- name: Наличие пакетов apt-transport-https, ca-certificates, curl и gnupg
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+    state: present
+    update_cache: yes
+
+- name: Наличие каталога /etc/apt/keyrings
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+  ignore_errors: true # Игнорировать ошибку, если каталог уже существует
+
+- name: Подписан кубер ключем
+  ansible.builtin.shell: |
+    curl -fsSL "https://pkgs.k8s.io/core:/stable:/{{ kubernetes_version }}/deb/Release.key" | gpg --yes --dearmor -o "/etc/apt/keyrings/kubernetes-apt-keyring.gpg"
+
+- name: Проверить репозиторий Kubernetes в файл sources.list.d
+  lineinfile:
+    path: "/etc/apt/sources.list.d/kubernetes.list"
+    line: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/{{ kubernetes_version }}/deb/ /"
+    create: yes
+
+- name: Последняя версия списка пакетов
+  apt:
+    update_cache: yes
+
+- name: Наличие пакетов kubelet kubeadm kubectl
+  apt:
+    name:
+      - kubelet
+      - kubeadm
+      - kubectl
+    state: present
+    update_cache: yes
+
+- name: Установилен флаг hold на пакеты kubelet, kubeadm, kubectl
+  ansible.builtin.command: apt-mark hold kubelet kubeadm kubectl
+
+- name: Запущена служба kubelet
+  systemd:
+    name: kubelet
+    state: started
+    enabled: yes
+  become: true

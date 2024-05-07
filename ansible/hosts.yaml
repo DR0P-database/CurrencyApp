@@ -1,0 +1,11 @@
+all:
+  hosts:
+    worker_1:
+      ansible_host: 94.139.254.63
+      ansible_port: 22002
+    worker_2:
+      ansible_host: 94.139.254.63
+      ansible_port: 22003
+    worker_3:
+      ansible_host: 94.139.254.63
+      ansible_port: 22004

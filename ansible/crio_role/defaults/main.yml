@@ -1,0 +1,4 @@
+# defaults/main.yml for crio_role
+---
+kubernetes_version: "v1.30"
+project_path: "prerelease:/main"

@@ -1,0 +1,67 @@
+# tasks/main.yml for crio_role
+- name: Последняя версия списка пакетов
+  apt:
+    update_cache: yes
+
+- name: Есть зависимости для добавления репозиториев
+  apt:
+    name:
+      - software-properties-common
+      - curl
+    state: present
+    update_cache: yes
+
+- name: Подписан кубер ключем
+  ansible.builtin.shell: |
+    curl -fsSL "https://pkgs.k8s.io/core:/stable:/{{ kubernetes_version }}/deb/Release.key" | gpg --yes --dearmor -o "/etc/apt/keyrings/kubernetes-apt-keyring.gpg"
+
+- name: Наличие репозитория Kubernetes в файл sources.list.d
+  lineinfile:
+    path: "/etc/apt/sources.list.d/kubernetes.list"
+    line: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/{{ kubernetes_version }}/deb/ /"
+    create: yes
+
+- name: Подписан CRI-O ключем
+  ansible.builtin.shell: |
+    curl -fsSL "https://pkgs.k8s.io/addons:/cri-o:/{{ project_path }}/deb/Release.key" | gpg --yes --dearmor -o /etc/apt/keyrings/cri-o-apt-keyring.gpg
+
+- name: Наличие репозитория CRI-O в источники APT
+  lineinfile:
+    path: /etc/apt/sources.list.d/cri-o.list
+    line: "deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://pkgs.k8s.io/addons:/cri-o:/{{ project_path }}/deb/ /"
+    create: yes
+
+- name: Последняя версия списка пакетов
+  apt:
+    update_cache: yes
+
+- name: Наличие пакетов cri-o kubelet kubeadm kubectl
+  apt:
+    name:
+      - cri-o
+      - kubelet
+      - kubeadm
+      - kubectl
+    state: present
+    update_cache: yes
+
+- name: Запущена служба CRI-O
+  systemd:
+    name: crio.service
+    state: started
+
+- name: Отключено использование подкачки
+  command: swapoff -a
+
+- name: Загружен модуль br_netfilter
+  command: modprobe br_netfilter
+
+- name: Включена пересылку IP-пакетов
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    state: present
+
+- name: Инициализирован кластер Kubernetes
+  ansible.builtin.command: |
+    kubeadm reset  --force | kubeadm init

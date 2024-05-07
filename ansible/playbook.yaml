@@ -1,0 +1,11 @@
+---
+- name: Использование ролей
+  hosts: all
+  remote_user: root
+  tasks:
+    - name: Импорт роли cri-o
+      ansible.builtin.import_role:
+        name: crio_role
+    - name: Импорт роли kubetools_role
+      ansible.builtin.import_role:
+        name: kubetools_role
