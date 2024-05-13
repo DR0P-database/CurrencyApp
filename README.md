@@ -1,4 +1,4 @@
-# Yadro DevOps a.ukhanov
+# CurrencyAPP
 ### Project Description
 This is an application for obtaining the ruble exchange rate against other currencies through the API of the Central Bank of Russia.
 
