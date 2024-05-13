@@ -5,9 +5,13 @@ This is an application for obtaining the ruble exchange rate against other curre
 ### Start application from DOCKER(better)
 Execute the commands:
 >`git clone https://github.com/DR0P-database`
+>
 >`AvitoApprenticeship.git`
+>
 >`cd AvitoApprenticeship`
+>
 >`docker compose build`
+>
 >`docker compose up`
 
 ### Start application from env
