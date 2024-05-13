@@ -2,8 +2,15 @@
 ### Project Description
 This is an application for obtaining the ruble exchange rate against other currencies through the API of the Central Bank of Russia.
 
+### Start application from DOCKER(better)
+Execute the commands:
+>`git clone https://github.com/DR0P-database`
+>`AvitoApprenticeship.git`
+>`cd AvitoApprenticeship`
+>`docker compose build`
+>`docker compose up`
 
-### Start application
+### Start application from env
 Before start server, you should install virtual environment with dependencies.
 
 After you have bent the project, in the project folder through the terminal, execute the commands:
@@ -14,11 +21,11 @@ After you have bent the project, in the project folder through the terminal, exe
 >`pip install -r requirements.txt`
 
 To ***start server*** run `python main.py` or run follow commands in terminal
->`uvicorn main:app`
+>`python3 main.py`
 
 
 ### Usage application
-To ***get info*** about service you need to use the following request: 
+To ***get info*** about service you need to use the following request to `localhost:8000`: 
 >`GET "/info"`
 
 To ***get currency*** valuets:
